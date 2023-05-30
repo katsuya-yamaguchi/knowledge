@@ -1,0 +1,22 @@
+version: '3'
+
+volumes:
+  pg-database:
+    driver: local
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.pgsql
+    environment:
+      POSTGRES_PASSWORD: 123456 
+    ports:
+      - 15432:5432
+    volumes:
+      - pg-database:/var/lib/postgresql/data
+      
+  hammerdb:
+    image: tpcorg/hammerdb:v4.7
+    depends_on:
+      - postgres
